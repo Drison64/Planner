@@ -1,0 +1,7 @@
+name: Planner
+version: ${project.version}
+main: me.drison64.planner.Main
+api-version: 1.16
+commands:
+  planner:
+    description: Main command for Planner plugin
