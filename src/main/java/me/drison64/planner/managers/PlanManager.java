@@ -26,10 +26,6 @@ public class PlanManager {
 
             Plan plan = new PlanBuilder().setStart(startTime).setDuration(endTime - startTime).setTitle("pes").build();
 
-            //System.out.println("starttime: " + startTime);
-            //System.out.println("endtime: " + endTime);
-            //System.out.println("nowtime: " + nowTime);
-
             long toStart = startTime - nowTime;
             long toEnd = endTime - nowTime;
 
@@ -49,11 +45,6 @@ public class PlanManager {
                 System.out.println(plan.getStart() + " " + plan.getDuration());
             }
         }
-
-        //bubbleSort(red).forEach(e -> System.out.println(e.getStart() + " " + e.getDuration()));
-        //bubbleSort(yellow).forEach(e -> System.out.println(e.getStart() + " " + e.getDuration()));
-        //bubbleSort(green).forEach(e -> System.out.println(e.getStart() + " " + e.getDuration()));
-
 
         List<Plan> outputPlans = new ArrayList<>();
         outputPlans.addAll(bubbleSort(red));

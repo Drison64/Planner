@@ -13,7 +13,6 @@ public class ConfigManager {
     private Main main;
 
     private List<Configuration> registeredConfigurations = new ArrayList<>();
-    //private HashMap<String, Configuration> configNames;
 
     public ConfigManager(Main main) {
         this.main = main;
@@ -21,7 +20,6 @@ public class ConfigManager {
 
     public void registerConfig(Configuration configuration) {
         registeredConfigurations.add(configuration);
-        //configNames.put(configName, configuration);
     }
 
     public Configuration getConfig(Class<? extends Configuration> clazz) {
