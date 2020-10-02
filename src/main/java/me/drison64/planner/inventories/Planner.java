@@ -6,7 +6,6 @@ import me.drison64.planner.Main;
 import me.drison64.planner.managers.PlanManager;
 import me.drison64.planner.objects.ConfigType;
 import me.drison64.planner.objects.Plan;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -17,7 +16,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Planner extends CustomInventory {
 
@@ -88,27 +86,7 @@ public class Planner extends CustomInventory {
                 int id = i + (45 * (page - 1));
                 Plan plan = actionslist.get(id);
 
-                Long startTime = plan.getStart();
-                Long endTime = plan.getStart() + plan.getDuration();
-                Long nowTime = System.currentTimeMillis() / 1000L;
-                
-                long toStart = startTime - nowTime;
-                long toEnd = endTime - nowTime;
-
-                System.out.println("tostart: " + toStart);
-                if (toStart <= 0) {
-                    String[] strings = planManager.getRemaingTime(toEnd);
-
-                    set(i, ItemStackUtils.mkitem(1, Material.RED_CONCRETE, actionslist.get(i + (45 * (page - 1))).getTitle(), Arrays.asList("Ends in: " + strings[0] + ":" + strings[1] + ":" + strings[2] + ":" + strings[3])));
-                } else if (toStart <= 1799) {
-                    String[] strings = planManager.getRemaingTime(toStart);
-
-                    set(i, ItemStackUtils.mkitem(1, Material.YELLOW_CONCRETE, actionslist.get(i + (45 * (page - 1))).getTitle(), Arrays.asList("Starts in: " + strings[0] + ":" + strings[1] + ":" + strings[2] + ":" + strings[3])));
-                } else {
-                    String[] strings = planManager.getRemaingTime(startTime);
-
-                    set(i, ItemStackUtils.mkitem(1, Material.GREEN_CONCRETE, actionslist.get(i + (45 * (page - 1))).getTitle(), Arrays.asList("Starts in: " + strings[0] + ":" + strings[1] + ":" + strings[2] + ":" + strings[3])));
-                }
+                set(i, ItemStackUtils.mkitem(1, plan.getMaterial(), plan.getTitle(), plan.getLore()));
 
             } else {
                 break;

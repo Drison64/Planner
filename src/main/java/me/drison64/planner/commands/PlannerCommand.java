@@ -25,7 +25,7 @@ public class PlannerCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (args[0] == null) {
+        if (args.length < 1) {
             return false;
         }
 

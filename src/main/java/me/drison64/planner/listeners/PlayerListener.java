@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.Arrays;
 
@@ -39,7 +40,11 @@ public class PlayerListener implements Listener {
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
+            if (!(e.getHand() == EquipmentSlot.HAND)) return;
+
             if (waitingManager.getWaiting(player) == WaitingType.ADD) {
+
+                e.setCancelled(true);
 
                 waitingManager.removePlayer(player);
 
@@ -58,6 +63,8 @@ public class PlayerListener implements Listener {
                 String id = String.valueOf(e.getClickedBlock().getLocation().getBlockX()) + String.valueOf(e.getClickedBlock().getLocation().getBlockY()) + String.valueOf(e.getClickedBlock().getLocation().getBlockZ());
 
                 if (!(configManager.getConfig(ConfigType.DATA).get().isSet("planners." + id))) return;
+
+                e.setCancelled(true);
 
                 CustomInventory inventory = new Planner(main, e.getClickedBlock(), 1);
 

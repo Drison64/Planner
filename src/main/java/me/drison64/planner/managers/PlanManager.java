@@ -3,6 +3,7 @@ package me.drison64.planner.managers;
 import me.drison64.planner.objects.Plan;
 import me.drison64.planner.objects.PlanBuilder;
 
+import java.io.IOException;
 import java.util.*;
 
 public class PlanManager {
@@ -13,18 +14,29 @@ public class PlanManager {
     public List<Plan> getPlans(List<String> plans) {
 
         HashMap<Long, Plan> red, yellow, green;
-        red = yellow = green = new HashMap<>();
+        red = new HashMap<>();
+        yellow = new HashMap<>();
+        green = new HashMap<>();
+
 
         System.out.println("PLANSPLANSMJAFFGUW: " + plans.size());
 
         for (String s : plans) {
-            String[] values = s.split("/");
-            Calendar startCalendar = getCalendarFromTime(values[0], values[1], values[2], values[3], values[4], values[5]);
-            Long startTime = startCalendar.getTime().getTime() / 1000L;
-            Long endTime = (startCalendar.getTime().getTime() / 1000L) + (Integer.parseInt(values[6]) * 60);
+            String[] values;
+            Calendar startCalendar;
+            Long startTime;
+            Long endTime;
+            try {
+                values = s.split("/");
+                startCalendar = getCalendarFromTime(values[0], values[1], values[2], values[3], values[4], values[5]);
+                startTime = startCalendar.getTime().getTime() / 1000L;
+                endTime = (startCalendar.getTime().getTime() / 1000L) + (Integer.parseInt(values[6]) * 60);
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                continue;
+            }
             Long nowTime = System.currentTimeMillis() / 1000L;
 
-            Plan plan = new PlanBuilder().setStart(startTime).setDuration(endTime - startTime).setTitle("pes").build();
+            Plan plan = new PlanBuilder().setStart(startTime).setDuration(endTime - startTime).setTitle("pes").setLore(Arrays.asList("pes", "kundaaa")).build();
 
             long toStart = startTime - nowTime;
             long toEnd = endTime - nowTime;
@@ -33,16 +45,17 @@ public class PlanManager {
                 continue;
             }
 
-            System.out.println("tostart: " + toStart);
+            System.out.println(toStart);
+
             if (toStart <= 0) {
                 red.put(endTime, plan);
-                System.out.println(plan.getStart() + " " + plan.getDuration());
-            } else if (toStart <= 1799) {
-                yellow.put(startTime, plan);
-                System.out.println(plan.getStart() + " " + plan.getDuration());
-            } else {
+                System.out.println("111");
+            } else if (toStart >= 1800) {
                 green.put(startTime, plan);
-                System.out.println(plan.getStart() + " " + plan.getDuration());
+                System.out.println("222");
+            } else {
+                yellow.put(startTime, plan);
+                System.out.println("333");
             }
         }
 
@@ -71,7 +84,6 @@ public class PlanManager {
         List<Plan> planInputList = new ArrayList<>(input.values());
 
         Long[] longArray = longList.toArray(new Long[0]);
-        List<Plan> planList = planInputList;
 
         boolean sorted = false;
 
@@ -83,19 +95,19 @@ public class PlanManager {
             for (int i = 0; i < input.size() - 1; i++) {
                 if (longArray[i] > longArray[i+1]) {
                     longTemp = longArray[i];
-                    planTemp = planList.get(i);
+                    planTemp = planInputList.get(i);
 
                     longArray[i] = longArray[i+1];
-                    planList.set(i, planList.get(i+1));
+                    planInputList.set(i, planInputList.get(i+1));
 
                     longArray[i+1] = longTemp;
-                    planList.set(i+1, planTemp);
+                    planInputList.set(i+1, planTemp);
 
                     sorted = false;
                 }
             }
         }
-        return planList;
+        return planInputList;
     }
 
     public String[] getRemaingTime(Long to_) {
