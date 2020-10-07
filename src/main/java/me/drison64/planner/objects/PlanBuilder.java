@@ -1,6 +1,8 @@
 package me.drison64.planner.objects;
 
-import org.bukkit.Material;
+import org.bukkit.ChatColor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanBuilder {
@@ -31,7 +33,10 @@ public class PlanBuilder {
     }
 
     public Plan build() {
-        return new Plan(start, duration, title, lore);
+        String _title = ChatColor.translateAlternateColorCodes('&', title);
+        List<String> _lore = new ArrayList<>();
+        lore.forEach(l -> _lore.add(ChatColor.translateAlternateColorCodes('&', l)));
+        return new Plan(start, duration, _title, _lore);
     }
 
 }

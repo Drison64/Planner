@@ -2,6 +2,7 @@ package me.drison64.planner.managers;
 
 import me.drison64.planner.objects.Plan;
 import me.drison64.planner.objects.PlanBuilder;
+import org.bukkit.ChatColor;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,8 +37,6 @@ public class PlanManager {
             }
             Long nowTime = System.currentTimeMillis() / 1000L;
 
-            Plan plan = new PlanBuilder().setStart(startTime).setDuration(endTime - startTime).setTitle("pes").setLore(Arrays.asList("pes", "kundaaa")).build();
-
             long toStart = startTime - nowTime;
             long toEnd = endTime - nowTime;
 
@@ -48,14 +47,38 @@ public class PlanManager {
             System.out.println(toStart);
 
             if (toStart <= 0) {
+                List<String> lore = new ArrayList<>();
+                lore.add("&bEnds in: " + getRemaingTime(endTime));
+                lore.add(" ");
+                lore.addAll(Arrays.asList(values[8].split("§nl")));
+                Plan plan = new PlanBuilder().setStart(startTime)
+                        .setDuration(endTime - startTime)
+                        .setTitle(values[7])
+                        .setLore(lore)
+                        .build();
                 red.put(endTime, plan);
-                System.out.println("111");
             } else if (toStart >= 1800) {
+                List<String> lore = new ArrayList<>();
+                lore.add("&bStarts in: " + getRemaingTime(startTime));
+                lore.add(" ");
+                lore.addAll(Arrays.asList(values[8].split("§nl")));
+                Plan plan = new PlanBuilder().setStart(startTime)
+                        .setDuration(endTime - startTime)
+                        .setTitle(values[7])
+                        .setLore(lore)
+                        .build();
                 green.put(startTime, plan);
-                System.out.println("222");
             } else {
+                List<String> lore = new ArrayList<>();
+                lore.add("&bStarts in: " + getRemaingTime(startTime));
+                lore.add(" ");
+                lore.addAll(Arrays.asList(values[8].split("§nl")));
+                Plan plan = new PlanBuilder().setStart(startTime)
+                        .setDuration(endTime - startTime)
+                        .setTitle(values[7])
+                        .setLore(lore)
+                        .build();
                 yellow.put(startTime, plan);
-                System.out.println("333");
             }
         }
 
@@ -110,7 +133,7 @@ public class PlanManager {
         return planInputList;
     }
 
-    public String[] getRemaingTime(Long to_) {
+    public String getRemaingTime(Long to_) {
         Long nowTime = System.currentTimeMillis() / 1000L;
 
         long to = to_ - nowTime;
@@ -119,7 +142,7 @@ public class PlanManager {
         String minutes = twoZeros(String.valueOf(to % 3600 / 60))[0];
         String hours = twoZeros(String.valueOf(to % 86400 / 3600))[0];
         String days = twoZeros(String.valueOf((to / 86400)))[0];
-        return new String[]{days, hours, minutes, sec};
+        return days + " : " + hours + " : " + minutes + " : " + sec;
     }
 
     private String[] twoZeros(String... strings) {
