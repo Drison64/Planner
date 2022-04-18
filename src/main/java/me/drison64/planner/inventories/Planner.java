@@ -2,6 +2,7 @@ package me.drison64.planner.inventories;
 
 import me.drison64.inventoryapi.CustomInventory;
 import me.drison64.inventoryapi.ItemStackUtils;
+import me.drison64.inventoryapi.properties.InventoryProperty;
 import me.drison64.planner.Main;
 import me.drison64.planner.managers.PlanManager;
 import me.drison64.planner.objects.ConfigType;
@@ -32,11 +33,11 @@ public class Planner extends CustomInventory {
 
         this.block = block;
         this.page = page;
+        properties.add(InventoryProperty.Refresh);
     }
 
     @Override
     protected void init(HashMap<Integer, ItemStack> hashMap) {
-        main.getRefreshManager().register(player, this);
         size = 54;
         title = "Planner";
 
@@ -97,16 +98,6 @@ public class Planner extends CustomInventory {
 
     @Override
     protected void fire(Event event) {
-        if (event instanceof InventoryCloseEvent) {
-            InventoryCloseEvent e = (InventoryCloseEvent) event;
-            main.getRefreshManager().unregister((Player) e.getPlayer());
-        }
-
-        if (event instanceof PlayerQuitEvent) {
-            PlayerQuitEvent e = (PlayerQuitEvent) event;
-            main.getRefreshManager().unregister(e.getPlayer());
-        }
-
         if (event instanceof InventoryClickEvent) {
             InventoryClickEvent e = (InventoryClickEvent) event;
             e.setCancelled(true);

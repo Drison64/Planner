@@ -31,7 +31,6 @@ public class PlayerListener implements Listener {
         this.waitingManager = main.getWaitingManager();
         this.inventoryManager = main.getInventoryManager();
         this.configManager = main.getConfigManager();
-        this.refreshManager = main.getRefreshManager();
     }
 
     @EventHandler

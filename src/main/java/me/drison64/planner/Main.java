@@ -21,8 +21,6 @@ public final class Main extends JavaPlugin {
 
     private InventoryManager inventoryManager;
 
-    private RefreshManager refreshManager;
-
     private PlanManager planManager;
 
     private InventoryAPI inventoryAPI;
@@ -31,8 +29,6 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
 
         configManager = new ConfigManager(this);
-
-        refreshManager = new RefreshManager(this);
 
         waitingManager = new WaitingManager();
 
@@ -61,10 +57,6 @@ public final class Main extends JavaPlugin {
 
     public InventoryManager getInventoryManager() {
         return inventoryManager;
-    }
-
-    public RefreshManager getRefreshManager() {
-        return refreshManager;
     }
 
     public PlanManager getPlanManager() {
